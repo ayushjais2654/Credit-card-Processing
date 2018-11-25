@@ -137,8 +137,8 @@ def payment(request,id):
            return render(request,url,context)
         else:  
              if  pin!=k.password:
-                chances=chances+1
-                context={'name':id,'msg':'enter correct password',}
+                context={'name':id,'msg':'Invalid Password',}
+                return render(request,url,context)
              if(k.cardtype=='Rupay'):
                 if int(amt)>(20000):
                     context={'name':id,'msg':'The limit of Rupay is 20000! Kindly check the requested amount:)',}
