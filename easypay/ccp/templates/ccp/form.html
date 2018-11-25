@@ -370,7 +370,7 @@ footer {
     </div>
 	<div class="container1">
 		<form method="post" action="http://127.0.0.1:8000/ccp/registerf">
-      <p1 style="color:red" >{{msg}}</p1>
+      <h1><p1 style="color:red" >{{msg}}</p1></h1>
       {% csrf_token %}
 			<!-- <div class="row">
 			<label class="column1"><b>Do you already have a credit card  </b></label>
@@ -380,11 +380,11 @@ footer {
 			</div>
 			<div class="row">
 			<label class="column1"><b>Name  </b></label>
-			<input type="text" name="name" placeholder ="First name" class="column2" required>  <input type="text" required name="lname" placeholder ="Last name" class="column2"><br>
+			<input type="text" name="name" placeholder ="First Name" class="column2" required>  <input type="text" required name="lname" placeholder ="Last Name" class="column2"><br>
 			</div>
       <div class="row">
       <label class="column1"><b>Password  </b></label>
-      <input type="password" name="Set A Password" placeholder ="..." pattern=".{6,}" class="column2" required> <br>
+      <input type="password" name="Set A Password" placeholder="min 6 characters" pattern=".{6,}" class="column2" required> <br>
       </div>
       <div class="row">
       <label class="column1"><b>Street No  </b></label>
@@ -414,7 +414,7 @@ footer {
       </div>
       <div class="row">
       <label class="column1"><b>Pin Code  </b></label>
-      <input type="text" name="pincode" placeholder ="Pincode" class="column2" required><br>
+      <input type="text" name="pincode" placeholder ="123456" class="column2" required><br>
       </div>
 			<div class="row">
 			<label class="column1"><b>Occupation  </b></label>
@@ -432,28 +432,28 @@ footer {
       </div>
 			<div class="row">
 			<label class="column1"><b>PAN Number  </b></label>
-			<input type="text" name="pan1" placeholder ="PAN" class="column2" required pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"><br>
+			<input type="text" name="pan1" placeholder ="ABCDE1234F" class="column2" required pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"><br>
 			</div>
 			<div class="row">
 			<label class="column1"><b>Email ID  </b></label>
-			<input type="text" name="Email Address" placeholder ="Email id" class="column2" autocomplete="off" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"> <br>
+			<input type="text" name="Email Address" placeholder ="user@example.com" class="column2" autocomplete="off" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"> <br>
 			</div>
       <div class="row">
       <label class="column1"><b>Cardtype  </b></label>
-      <input type="text" name="cardtype" placeholder ="Cardtype" class="column2" required> <br>
+      <input type="text" name="cardtype" placeholder ="e.g Visa" class="column2" required> <br>
       </div>
       <div class="row">
       <label class="column1"><b>Bank  </b></label>
-      <input type="text" name="bank" placeholder ="Bank" class="column2" required> <br>
+      <input type="text" name="bank" placeholder ="e.g SBI" class="column2" required> <br>
       </div>
 			<div class="row">
 			<label class="column1"><b>Mobile Number  </b></label>
 			<div class="column2"">
-			<input type="text" name="PhoneNumber" pattern="[789][0-9]{9}" placeholder ="Mobile number.." required>
+			<input type="text" name="PhoneNumber" pattern="[789][0-9]{9}" placeholder ="9828XXXXXX" required>
 			</div>
 			</div>
 			<div class="row">
-			<label class="column1"><b>Annual income  </b></label>
+			<label class="column1"><b>Annual Income  </b></label>
 			<input type="number" name="income" placeholder ="Salary" class="column2" required>  <br>
 			</div>
 			<div class="button">

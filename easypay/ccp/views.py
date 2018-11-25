@@ -32,14 +32,14 @@ def login(request):
      name=request.POST['Email']
      password=request.POST['Password']
      try:
-        ans=Customer.objects.get(name=name)
+        ans=Customer.objects.get(email=name)
      except:
         ans=None
      if  ans is not None:
        if ans.password==password:
           
           context={
-	  'name':name,
+	  'name':ans.name,
 	  'email':ans.email,
 	  'pan':ans.pan,}
           return render(request,'ccp/yourhome.html',context)
@@ -69,6 +69,7 @@ def display1(request,id):
     'name':ans.name,
     'email':ans.email,
     'number':ans.phonenumber,
+    'phno':ans.phonenumber,
     'pan':ans.pan,
     'card':ans.cardno,
     'cardtype':ans.cardtype,
@@ -121,62 +122,91 @@ def history1(request,id):
 
 def payment(request,id):
     url='ccp/paying.html'
-    global chances
+    # global chances
     k=Customer.objects.get(name=id)
     if request.method=='POST':
         rec=request.POST['name']
         amt=request.POST['Amount']
         pin=request.POST['password']
         try:
-          ans=Customer.objects.get(name=rec)
+          ans=Customer.objects.get(email=rec)
         except:
           ans=None
         if ans is None:
-           context={
-     'name':id,
-       'msg':'no such registered  receiver',
-      }
+           context={'name':id,'msg':'No such Registered Receiver',}
            return render(request,url,context)
         else:  
              if  pin!=k.password:
                 chances=chances+1
-                context={
-    'name':id,
-    'msg':'enter correct password',
-    }
-                print (chances)
-                if chances>=2:
-                  chances=0
-                  return HttpResponse("you didn't  give crrect pin in 2 chances")
+                context={'name':id,'msg':'enter correct password',}
+             if(k.cardtype=='Rupay'):
+                if int(amt)>(20000):
+                    context={'name':id,'msg':'The limit of Rupay is 20000! Kindly check the requested amount:)',}
+                    return render(request,url,context)
                 else:
-                  return render(request,url,context)
-             if int(amt)>45000:
-                context={
-    'name':id,
-           'msg':'Cannot lend this much amount! Kindly check:)',
-          }
-                return render(request,url,context)
-             else:
-               chances=0
-               k.save()
-               ans.save()
-               context={
-         'name':id,
-               'msg':'Money Sent',
-               }
-               now = datetime.datetime.now()
-               t=historydata()
-               t.sender=id
-               t.receiver=rec
-               t.amountsent=amt
-               t.date=now.day
-               t.month=now.month
-               t.year=now.year
-               t.hrs=now.hour
-               t.minutes=now.minute
-               t.seconds=now.second
-               t.save()
-               return render(request,url,context)      
+                 chances=0
+                 k.save()
+                 ans.save()
+                 context={'name':id,'msg':'Money Sent',}
+                 now = datetime.datetime.now()
+                 t=historydata()
+                 t.sender=id
+                 t.receiver=ans.name
+                 t.amountsent=amt
+                 t.date=now.day
+                 t.month=now.month
+                 t.year=now.year
+                 t.hrs=now.hour
+                 t.minutes=now.minute
+                 t.seconds=now.second
+                 t.save()
+                 return render(request,url,context)
+
+             elif(k.cardtype=='Visa'):
+                if int(amt)>(40000):
+                    context={'name':id,'msg':'The limit of Visa is 40000! Kindly check the requested amount:)',}
+                    return render(request,url,context)
+                else:
+                 chances=0
+                 k.save()
+                 ans.save()
+                 context={'name':id,'msg':'Money Sent',}
+                 now = datetime.datetime.now()
+                 t=historydata()
+                 t.sender=id
+                 t.receiver=ans.name
+                 t.amountsent=amt
+                 t.date=now.day
+                 t.month=now.month
+                 t.year=now.year
+                 t.hrs=now.hour
+                 t.minutes=now.minute
+                 t.seconds=now.second
+                 t.save()
+                 return render(request,url,context)
+
+             elif(k.cardtype=='Platinum'):
+                if int(amt)>(60000):
+                    context={'name':id,'msg':'The limit of Platinum is 60000! Kindly check the requested amount:)',}
+                    return render(request,url,context)
+                else:
+                   chances=0
+                   k.save()
+                   ans.save()
+                   context={'name':id,'msg':'Money Sent',}
+                   now = datetime.datetime.now()
+                   t=historydata()
+                   t.sender=id
+                   t.receiver=ans.name
+                   t.amountsent=amt
+                   t.date=now.day
+                   t.month=now.month
+                   t.year=now.year
+                   t.hrs=now.hour
+                   t.minutes=now.minute
+                   t.seconds=now.second
+                   t.save()
+                   return render(request,url,context)      
     else:
         url='ccp/paying.html'
         context={'name':id,}
@@ -255,8 +285,7 @@ def registerf(request):
         address=stno+city+state+country+" "+pincode
 
         try:
-
-            ans=Customer.objects.get(name=name)
+            ans=Customer.objects.get(email=email)
         except:
             ans=None
         if ans is None:
@@ -275,14 +304,9 @@ def registerf(request):
            obj.pan=pan1
            obj.save()
            context={'name':name}
-        #template = loader.get_template('ccp/profile.html')
-        #return HttpResponse("<h1 > customer name is "+"hii"+"</h1>")
-        #return HttpResponse(template.render(context, request))
            return render(request,'ccp/first.html',context)
         else:
-          context={
-        'msg':'user already registered',
-        }
+          context={'msg':'User already registered with this Mail-Id',}
           return render(request,'ccp/form.html',context)    
 
      elif request.method=='GET':
